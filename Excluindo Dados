@@ -1,0 +1,28 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Main
+{
+	public static void main(String[] args) {
+	    String SQLexcluirDados = "DELETE from pessoa";
+	    String driver = "jdbc:postgresql://127.0.0.1:5432/DadosPessoais";
+	    Statement st = null;
+	    
+	    try(Connection conn = DriverManager.getConnection(driver, "postgres", "password")){
+	        if(conn != null){
+	            System.out.println("Connected to the database!");
+	        }else{
+	            System.out.println("Failed to make connection!");
+	        }
+	        System.out.println("Excluindo dados na Tabela...");
+	        st = conn.creatStatement();
+	        st.executeUpdate(SQLexcluirDados);
+	        System.out.println("Dados Excluidos!");
+	        st.close();
+	        conn.close();
+	    }catch(SQLException e){
+	        System.err.format("SQL State: %s\n%s", e.getSQLState(), e.getMessage());
+	    }
+	}
+}
